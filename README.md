@@ -20,13 +20,13 @@ OTA Extractor is a simple GUI tool for extracting OTA update contents (.zip and 
 
 🔹 1. Clone the repository
  ```sh
-    git clone https://github.com/username/ota-extractor.git
-    cd ota-extractor
+git clone https://github.com/username/ota-extractor.git
+cd ota-extractor
 ```
 🔹 2. Install dependencies
 > 📌 Requires Python 3.8+
 ```sh
-    pip install -r requirements.txt
+pip install -r requirements.txt
 ```
 
 ---
@@ -34,7 +34,7 @@ OTA Extractor is a simple GUI tool for extracting OTA update contents (.zip and 
 🚀 Run
 
 ```sh
-    python main.py
+python main.py
 ```
 
 ---

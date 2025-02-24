@@ -22,11 +22,21 @@ jobs:
       with:
         python-version: "3.10"
 
-    - name: Set up Python for x86_64 on macOS
+    - name: Install Rosetta 2 (macOS)
       if: runner.os == 'macOS'
       run: |
         sudo softwareupdate --install-rosetta --agree-to-license
-        arch -x86_64 /usr/local/bin/python3 -m pip install --no-cache-dir --upgrade pip setuptools wheel
+
+    - name: Install Python x86_64 on macOS
+      if: runner.os == 'macOS'
+      run: |
+        arch -x86_64 /usr/bin/env bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+        arch -x86_64 brew install python@3.10
+
+    - name: Use Python x86_64
+      if: runner.os == 'macOS'
+      run: |
+        echo "PATH=/usr/local/bin:$PATH" >> $GITHUB_ENV
 
     - name: Upgrade pip
       if: runner.os != 'macOS'

@@ -27,17 +27,10 @@ jobs:
     - name: Install Dependencies
       run: pip install --no-cache-dir -r requirements.txt pyinstaller
 
-    - name: Build Executable (Linux & Windows)
-      if: runner.os != 'macOS'
+    - name: Build Executable
       run: |
         OS_NAME=$(echo "${{ runner.os }}" | tr '[:upper:]' '[:lower:]')
         pyinstaller --onefile --windowed --name "OTA_Extractor_${OS_NAME}" main.py
-      shell: bash
-
-    - name: Build Executable (macOS .app)
-      if: runner.os == 'macOS'
-      run: |
-        pyinstaller --onefile --windowed --name "OTA_Extractor" --osx-bundle-identifier "com.example.OTAExtractor" main.py
       shell: bash
 
     - name: Upload to GitHub Releases
@@ -45,6 +38,5 @@ jobs:
       with:
         files: |
           dist/OTA_Extractor_*
-          dist/OTA_Extractor.app
       env:
         GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}

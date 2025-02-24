@@ -27,16 +27,20 @@ jobs:
       run: |
         sudo softwareupdate --install-rosetta --agree-to-license
 
-    - name: Install Python x86_64 on macOS
+    - name: Install Homebrew (x86_64)
       if: runner.os == 'macOS'
       run: |
-        arch -x86_64 /usr/bin/env bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-        arch -x86_64 brew install python@3.10
+        arch -x86_64 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
-    - name: Use Python x86_64
+    - name: Use x86_64 Homebrew
       if: runner.os == 'macOS'
       run: |
-        echo "PATH=/usr/local/bin:$PATH" >> $GITHUB_ENV
+        echo "eval \"$(/usr/local/bin/brew shellenv)\"" >> $GITHUB_ENV
+
+    - name: Install Python x86_64
+      if: runner.os == 'macOS'
+      run: |
+        arch -x86_64 brew install python@3.10
 
     - name: Upgrade pip
       if: runner.os != 'macOS'

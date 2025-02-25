@@ -1,4 +1,5 @@
 import os
+import platform
 import sys
 import zipfile
 import hashlib
@@ -74,6 +75,21 @@ class Payload:
 
 def decompress_payload(command, data, size, hash):
     """Декомпрессия данных / Decompress data"""
+
+    system = platform.system()
+
+    if command == "xzcat":
+        if system == "Darwin":
+            command = "tar -xf -"
+        else:
+            command = "tar -xJf -"
+
+    elif command == "bzcat":
+        if system == "Windows":
+            command = "tar -xjf -"
+        else:
+            command = "bzcat"
+
     p = subprocess.Popen([command, "-"], stdout=subprocess.PIPE, stdin=subprocess.PIPE)
     r = p.communicate(data)[0]
     if len(r) != size:

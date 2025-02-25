@@ -1,4 +1,6 @@
 import locale
+import subprocess
+import platform
 
 translations = {
     "en": {
@@ -46,4 +48,28 @@ translations = {
 
 def get_language():
     system_lang = locale.getdefaultlocale()[0]
-    return translations["ru"] if system_lang.startswith("ru") else translations["en"]
+
+    if system_lang is None and platform.system() == "Darwin":
+        try:
+            result = subprocess.run(
+                ["defaults", "read", "-g", "AppleLanguages"],
+                capture_output=True,
+                text=True,
+            )
+            if result.stdout:
+                lang_code = (
+                    result.stdout.split("\n")[0]
+                    .strip()
+                    .replace("(", "")
+                    .replace(")", "")
+                    .replace('"', "")
+                    .split(",")[0]
+                )
+                system_lang = lang_code
+        except Exception:
+            pass
+
+    if system_lang and system_lang.startswith("ru"):
+        return translations["ru"]
+
+    return translations["en"]

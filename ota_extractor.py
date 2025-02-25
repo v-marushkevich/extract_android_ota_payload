@@ -80,13 +80,13 @@ def decompress_payload(command, data, size, hash):
 
     if command == "xzcat":
         if system == "Darwin":
-            command = "tar -xf -"
+            command = ["tar", "-xf", "-"]
         else:
-            command = "tar -xJf -"
+            command = ["tar", "-xJf", "-"]
 
     elif command == "bzcat":
         if system == "Windows":
-            command = "tar -xjf -"
+            command = ["tar", "-xjf", "-"]
         else:
             command = "bzcat"
 
